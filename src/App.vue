@@ -1,23 +1,46 @@
 <template>
   <div id="app">
-    <div class="container border border-dark container-bg" :style="getBackgroundImage">
-      <BattleField />
+    <div class="container">
+      <!-- <BattleField v-if="hasAccount" :account="account" />
+      <CreateAccount v-if="!hasAccount" @accountCreated="handleAccountCreated" /> -->
+      <router-view />
     </div>
   </div>
 </template>
 
 <script>
-import BattleField from './components/battle/BattleField.vue';
-import dota from './assets/dota2-bg.jpg';
+// import BattleField from './components/battle/BattleField.vue';
+
+// import CreateAccount from './components/account/CreateAccount.vue';
 
 export default {
   name: 'App',
+  data() {
+    return {
+      account: null,
+    };
+  },
+  created() {
+    this.getAccountFromLocalStorage();
+  },
   components: {
-    BattleField,
+    // BattleField,
+    // CreateAccount,
   },
   computed: {
-    getBackgroundImage() {
-      return `background-image: url(${dota})`;
+    hasAccount() {
+      return this.account !== null;
+    },
+  },
+  methods: {
+    handleAccountCreated() {
+      this.getAccountFromLocalStorage();
+    },
+    getAccountFromLocalStorage() {
+      const account = localStorage.getItem('currentAccount');
+      if (account) {
+        this.account = { ...JSON.parse(account) };
+      }
     },
   },
 };
@@ -31,9 +54,10 @@ export default {
 }
 .container {
   min-height: 300px;
+
 }
-.container-bg {
-  background-repeat: no-repeat;
-  background-size: cover;
+
+.hasErrors {
+  border-color: red !important;
 }
 </style>

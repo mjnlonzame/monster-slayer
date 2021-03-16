@@ -14,14 +14,14 @@
     </div>
     <div class="row">
       <div class="col">
-        <div class="skills" v-for="(skill,index) in heroSkills" :key="index">
-          <button
-            type="button"
-            class="btn-control btn btn-secondary btn-lg"
-            @click="handleClickSkill(skill)"
-            :disabled="!sufficientMana(skill) || battleFinish"
-          >{{skill.name}}</button>
-        </div>
+        <button
+          type="button"
+          class="btn-control btn btn-secondary btn-lg"
+          v-for="(skill,index) in heroSkills"
+          :key="index"
+          @click="handleClickSkill(skill)"
+          :disabled="!sufficientMana(skill) || battleFinish"
+        >{{skill.name}}</button>
       </div>
     </div>
   </div>
@@ -41,7 +41,7 @@ export default {
       this.$emit('skillClicked', skill);
     },
     sufficientMana(skill) {
-      return this.availableMana >= skill.manaCost;
+      return this.availableMana >= skill.cost;
     },
   },
 };
@@ -55,7 +55,7 @@ export default {
   text-align: center;
 }
 
- .controls-box {
+.controls-box {
   margin-bottom: 10px;
   min-height: 290px;
   padding: 20px;

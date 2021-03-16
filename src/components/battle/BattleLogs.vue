@@ -28,23 +28,11 @@ export default {
   text-align: center;
   margin-bottom: 5px;
   font-size: 0.8rem;
-
 }
 
 .log-text {
-  /* animation: slow 2s ease forwards; */
-  /* overflow: hidden; */
-    max-width: 100%;
-
+  max-width: 100%;
 }
-/* @keyframes slow {
-  from {
-    max-width: 0.5rem;
-  }
-  to {
-    max-width: 100%;
-  }
-} */
 
 .action-logs-box {
   overflow-y: scroll;

@@ -64,6 +64,7 @@ export default {
   },
   computed: {
     getHealth() {
+      console.log(this.health);
       const currentHealth = this.health >= 0 ? this.health : 0;
       const healthPercentage = (currentHealth / this.MAX_HP) * 100;
       return `${healthPercentage}%`;
