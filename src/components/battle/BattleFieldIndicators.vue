@@ -37,7 +37,7 @@
 
 <script>
 export default {
-  name: 'BattleIndicators',
+  name: 'BattleFieldIndicators',
   created() {
     this.MAX_HP = this.health;
     this.MAX_MANA = this.mana;
@@ -64,7 +64,7 @@ export default {
   },
   computed: {
     getHealth() {
-      console.log(this.health);
+      console.log(`${this.player} health: ${this.health}`);
       const currentHealth = this.health >= 0 ? this.health : 0;
       const healthPercentage = (currentHealth / this.MAX_HP) * 100;
       return `${healthPercentage}%`;

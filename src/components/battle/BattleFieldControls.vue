@@ -29,7 +29,7 @@
 
 <script>
 export default {
-  name: 'BattleControls',
+  name: 'BattleFieldControls',
   props: {
     basicSkills: Array,
     heroSkills: Array,

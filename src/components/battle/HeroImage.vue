@@ -10,6 +10,7 @@ export default {
 
   computed: {
     getBackgroundImage() {
+      console.log(this.image);
       return `background-image: url(${this.image})`;
     },
   },

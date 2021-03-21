@@ -48,16 +48,17 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 import { required } from 'vuelidate/lib/validators';
 import ErrorValidation from '../shared/ErrorValidation.vue';
-import AccountMixin from '../shared/mixins/AccountMixin.vue';
+// import AccountMixin from '../shared/mixins/AccountMixin.vue';
 
 export default {
   name: 'LoginAccount',
   components: {
     ErrorValidation,
   },
-  mixins: [AccountMixin],
+  // mixins: [AccountMixin],
   data() {
     return {
       username: '',
@@ -66,16 +67,17 @@ export default {
     };
   },
   methods: {
+    ...mapActions(['login']),
     onLoginClick() {
       // this.$v.$touch();
-      this.login(this.username, this.password)
+      console.log(this.password);
+      this.login({ username: this.username, password: this.password })
         .then((response) => {
           console.log(response.accountId);
+          this.$session.start();
+          this.$session.set('accountId', response.accountId);
           this.$router.push({
-            name: 'BattleField',
-            params: {
-              accountId: response.accountId,
-            },
+            name: 'TheDungeons',
           });
         })
         .catch(() => {

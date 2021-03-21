@@ -1,4 +1,4 @@
-const images = require.context('../assets/images/');
+const images = require.context('@/assets/images/');
 
 const characterImages = [
   {
