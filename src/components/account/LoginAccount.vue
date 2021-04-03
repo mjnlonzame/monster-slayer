@@ -77,7 +77,7 @@ export default {
           this.$session.start();
           this.$session.set('accountId', response.accountId);
           this.$router.push({
-            name: 'TheDungeons',
+            name: 'CharacterProfile',
           });
         })
         .catch(() => {

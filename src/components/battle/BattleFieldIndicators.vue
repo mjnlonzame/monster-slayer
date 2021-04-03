@@ -32,6 +32,16 @@
         </div>
       </div>
     </div>
+
+    <!-- <span class="text-center">Level {{level}} {{playerName}}</span> -->
+    <div class="parent">
+      <div class="left">
+          <div class="col">Health: {{health | status}} / {{MAX_HP}}</div>
+          <div class="col">Mana: {{mana | status }} / {{MAX_MANA}}</div>
+      </div>
+      <div class="center">Level {{level}} {{playerName}}</div>
+      <div class="right"></div>
+    </div>
   </div>
 </template>
 
@@ -52,6 +62,8 @@ export default {
     health: {
       type: Number,
     },
+    playerName: String,
+    level: Number,
     mana: Number,
     player: String,
   },
@@ -64,7 +76,6 @@ export default {
   },
   computed: {
     getHealth() {
-      console.log(`${this.player} health: ${this.health}`);
       const currentHealth = this.health >= 0 ? this.health : 0;
       const healthPercentage = (currentHealth / this.MAX_HP) * 100;
       return `${healthPercentage}%`;
@@ -96,5 +107,29 @@ export default {
 
 .health-bar {
   margin-bottom: 10px;
+}
+
+.player {
+  text-align: center;
+  font-size: 1rem;
+  margin-top: 5px;
+}
+
+.panel-footer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.parent {
+  display: flex;
+}
+.left, .right {
+  flex: 1;
+  font-size: .8rem;
+}
+
+.center {
+    position: relative;
+    margin: auto;
 }
 </style>

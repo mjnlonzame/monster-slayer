@@ -6,10 +6,12 @@ import LoginAccount from '../components/account/LoginAccount.vue';
 import BattleField from '../components/battle/BattleField.vue';
 import TheDungeon from '../components/dungeon/TheDungeon.vue';
 import CharacterProfile from '../components/character/CharacterProfile.vue';
+import CharacterInventory from '../components/character/CharacterInventory.vue';
+import CharacterSkills from '../components/character/CharacterSkills.vue';
 
 Vue.use(Router);
 
-export default new Router({
+const router = new Router({
   mode: 'history',
   routes: [
     {
@@ -26,7 +28,7 @@ export default new Router({
 
     },
     {
-      path: '/battle/:dungeonId',
+      path: '/dungeons/:dungeonId',
       name: 'BattleField',
       component: BattleField,
       props: true,
@@ -37,9 +39,33 @@ export default new Router({
       component: CharacterProfile,
     },
     {
+      path: '/character/inventory',
+      name: 'CharacterInventory',
+      component: CharacterInventory,
+    },
+    {
+      path: '/character/skills',
+      name: 'CharacterSkills',
+      component: CharacterSkills,
+    },
+
+    {
       path: '/dungeons',
-      name: 'TheDungeons',
+      name: 'TheDungeon',
       component: TheDungeon,
     },
   ],
 });
+
+router.beforeEach((to, from, next) => {
+  const reqSession = to.matched.some((route) => route.meta.requiresSession);
+  if (!reqSession) next();
+
+  if (router.app.$session.exists()) {
+    next();
+  } else {
+    next({ name: 'LoginAccount' });
+  }
+});
+
+export default router;

@@ -1,6 +1,5 @@
 <template>
-  <div >
-    <img class="img-fluid" :src="getImageSource" @click="onDungeonClick" />
+    <div class="dungeon-image" :style="getImageSource" @click="onDungeonClick">
   </div>
 </template>
 <script>
@@ -13,7 +12,10 @@ export default {
 
   computed: {
     getImageSource() {
-      return images(`./${this.dungeon.image}.jpg`);
+      const image = images(`./${this.dungeon.image}.jpg`);
+      // console.log(`image: ${image}`);
+      return `background-image: url(${image})`;
+      // return images(`./${this.dungeon.image}.jpg`);
     },
   },
   methods: {
@@ -25,16 +27,14 @@ export default {
 };
 </script>
 <style scoped>
-img {
-    /* width: 100%; */
-    padding: 50px;
+
+.dungeon-image {
+    /* padding: 120px; */
+  background-repeat: no-repeat;
+  background-size: contain;
+  height: 200px;
+  background-position: top;
+  margin-bottom: 20px;
 }
 
-/* .dungeon-images-box {
-  overflow-y: scroll;
-  margin-bottom: 10px;
-  min-height: 290px;
-  padding: 20px;
-  text-align: center;
-} */
 </style>

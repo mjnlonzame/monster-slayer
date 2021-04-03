@@ -21,7 +21,11 @@
     <div class="row">
       <div class="col">Char Id</div>
       <div class="col">{{character._id}}</div>
-    </div>Dungeon Access
+    </div>
+    Dungeon Access
+    <div v-for="dungeon in character.dungeonAccess" :key="dungeon._id">
+      {{dungeon.name}}
+    </div>
   </div>
 </template>
 
