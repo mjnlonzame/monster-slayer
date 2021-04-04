@@ -3,21 +3,17 @@
     <h1>Skills</h1>
     <div class="row" v-if="currentSkills">
       <div class="col-9">
-        <div class="available-skills-content gray-border">
-          <div class="row">
-            <div
-              class="col-6"
-              @click="onSkillClick(availableSkill, index)"
-              v-for="(availableSkill, index) in availableSkills"
-              :key="availableSkill._id"
-            >{{ availableSkill.name }}</div>
-          </div>
-        </div>
+        <CharacterSkillsAvailable
+          :skills="availableSkills"
+          @skillSelected="(selectedSkillId) => handleSkillSelected(selectedSkillId)"
+        />
       </div>
       <div class="col">
         <div class="row">
           <div class="col">
-            <CharacterSkillDetails :skill="selectedSkill" />
+            <CharacterSkillDetails
+            :skill="selectedSkill"
+            />
           </div>
         </div>
         <div class="row">
@@ -52,12 +48,14 @@
 import { mapState, mapActions } from 'vuex';
 import CharacterSkillDetails from './CharacterSkillDetails.vue';
 import CharacterSkillsEquipped from './CharacterSkillsEquipped.vue';
+import CharacterSkillsAvailable from './CharacterSkillsAvailable.vue';
 
 export default {
   name: 'CharacterSkills',
   components: {
     CharacterSkillDetails,
     CharacterSkillsEquipped,
+    CharacterSkillsAvailable,
   },
   created() {
     const characterId = this.$session.get('characterId');
@@ -69,7 +67,6 @@ export default {
   },
   data() {
     return {
-      // selectedSkill: null,
       selectedSkillIndex: -1,
       currentSkills: null,
     };
@@ -79,7 +76,6 @@ export default {
       availableSkills: (state) => state.availableSkills,
       character: (state) => state.character,
     }),
-    // ...mapGetters(['currentSkills']),
     selectedSkill() {
       return this.availableSkills[this.selectedSkillIndex];
     },
@@ -114,8 +110,11 @@ export default {
   methods: {
     ...mapActions(['getAvailableSkills', 'getCharacter', 'updateSkills']),
 
-    onSkillClick(skill, index) {
-      this.selectedSkillIndex = index;
+    // onSkillClick(skill, index) {
+    //   this.selectedSkillIndex = index;
+    // },
+    handleSkillSelected(selectedSkillId) {
+      this.selectedSkillIndex = selectedSkillId;
     },
     handleSkillRemoved(selectedSkillId) {
       console.log(`removing skills: ${selectedSkillId}`);
@@ -136,11 +135,9 @@ export default {
 <style scoped>
 .selected-skill-content {
   min-height: 250px;
-  /* background-color: blue; */
 }
 
 .current-skills-content {
   min-height: 250px;
-  /* background-color: darkblue; */
 }
 </style>

@@ -3,7 +3,11 @@
     <h1>Inventory</h1>
     <div class="row" v-if="character && inventories.length > 0">
       <div class="col-9">
-        <div class="inventory-content gray-border">
+        <CharacterInventoryItems
+          :inventories="inventories"
+          @itemSelected="(selectedItemIndex) => handleItemSelected(selectedItemIndex)"
+        />
+        <!-- <div class="inventory-content gray-border">
           <h1>Items</h1>
           <div class="row">
             <div
@@ -13,7 +17,7 @@
               :key="inventory._id"
             >{{ inventory.item.name }}</div>
           </div>
-        </div>
+        </div>-->
       </div>
       <div class="col">
         <div class="row">
@@ -24,17 +28,11 @@
               :currentEquipement="false"
               @deleteClicked="handleDeleteClick"
             />
-            <!-- <div class="selected-item-content gray-border">
-              <h1>A</h1>
-            </div>-->
           </div>
         </div>
         <div class="row">
           <div class="col">
             <CharacterItemDetails :item="equippedItem" :currentEquipement="true" />
-            <!-- <div class="current-equipment-content gray-border">
-              <h1>B</h1>
-            </div>-->
           </div>
         </div>
 
@@ -60,11 +58,13 @@
 <script>
 import { mapState, mapActions, mapMutations } from 'vuex';
 import CharacterItemDetails from './CharacterItemDetails.vue';
+import CharacterInventoryItems from './CharacterInventoryItems.vue';
 
 export default {
   name: 'CharacterInventory',
   components: {
     CharacterItemDetails,
+    CharacterInventoryItems,
   },
   created() {
     const characterId = this.$session.get('characterId');
@@ -139,7 +139,7 @@ export default {
       'updateCurrentEquipment',
       'updateInventory',
     ]),
-    onItemClick(item, selectedIndex) {
+    handleItemSelected(selectedIndex) {
       this.selectedItemIndex = selectedIndex;
     },
     onEquipClick() {
@@ -166,16 +166,5 @@ export default {
 </script>
 
 <style scoped>
-.inventory-content {
-  background-color: skyblue;
-}
-.selected-item-content {
-  min-height: 250px;
-  /* background-color: blue; */
-}
 
-.current-equipment-content {
-  min-height: 250px;
-  /* background-color: darkblue; */
-}
 </style>

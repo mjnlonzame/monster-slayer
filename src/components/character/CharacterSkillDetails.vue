@@ -33,8 +33,11 @@
 </template>
 
 <script>
+
 export default {
   name: 'CharacterSkillDetails',
+  components: {
+  },
   props: {
     skill: Object,
   },

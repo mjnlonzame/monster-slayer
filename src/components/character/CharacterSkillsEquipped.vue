@@ -3,7 +3,9 @@
     <div class="current-skills-header">Current Skills</div>
     <div v-for=" (skill, index) in skills" :key="index">
       <div class="row">
-        <div class="col-2">icon</div>
+        <div class="col-1">
+          <AppIcon :iconName="getSkillIconName(skill.type)" />
+        </div>
         <div class="col">{{skill.name}}</div>
         <div class="col-2" @click="onRemoveClick(skill._id)" v-if="removable">&#10006;</div>
       </div>
@@ -12,8 +14,15 @@
 </template>
 
 <script>
+import AppIcon from '../shared/AppIcon.vue';
+import characterMixin from '../shared/mixins/CharacterMixin.vue';
+
 export default {
   name: 'CharacterSkillsEquipped',
+  components: {
+    AppIcon,
+  },
+  mixins: [characterMixin],
   props: {
     skills: Array,
   },

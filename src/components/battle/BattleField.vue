@@ -30,7 +30,11 @@
     <div class="row players-content">
       <div class="col">
         <div class="player-box">
-          <HeroImage :imageName="classTypeName" :isCharacter="true" extension="png" />
+          <HeroImage
+            :imageName="getClassName(character.classType)"
+            :isCharacter="true"
+            extension="png"
+          />
         </div>
       </div>
       <div class="col">
@@ -72,6 +76,7 @@ import BattleLogs from './BattleLogs.vue';
 import BattleFieldIndicators from './BattleFieldIndicators.vue';
 import BattleFieldControls from './BattleFieldControls.vue';
 import HeroImage from './HeroImage.vue';
+import characterMixin from '../shared/mixins/CharacterMixin.vue';
 
 const dungeonImages = require.context('@/assets/dungeons/');
 
@@ -251,6 +256,7 @@ export default {
     BattleFieldControls,
     HeroImage,
   },
+  mixins: [characterMixin],
   props: {
     account: Object,
     dungeonId: String,
@@ -279,21 +285,6 @@ export default {
     getBackgroundImage() {
       const dungeonImage = dungeonImages(`./${this.dungeon.image}.jpg`);
       return `background-image: url(${dungeonImage})`;
-    },
-    classTypeName() {
-      let classTypeName = '';
-      if (this.character.classType === 1) {
-        classTypeName = 'saber';
-      } else if (this.character.classType === 2) {
-        classTypeName = 'archer';
-      } else if (this.character.classType === 3) {
-        classTypeName = 'lancer';
-      } else if (this.character.classType === 4) {
-        classTypeName = 'berserker';
-      } else if (this.character.classType === 5) {
-        classTypeName = 'caster';
-      }
-      return classTypeName;
     },
   },
   methods: {

@@ -6,7 +6,10 @@
       <span class="delete-item" @click="onDeleteClick" v-if="deletable">(Delete)</span>
     </div>
     <div class="item-details" v-if="item">
-      <div class="item-name">{{ item.name }}</div>
+      <div class="item-name">
+        <AppIcon :iconName="getItemIconName(item.classId, item.type)" />
+        {{ item.name }}
+      </div>
       <div class="row">
         <div
           class="col-6"
@@ -26,8 +29,15 @@
 </template>
 
 <script>
+import AppIcon from '../shared/AppIcon.vue';
+import characterMixin from '../shared/mixins/CharacterMixin.vue';
+
 export default {
   name: 'CharacterItemDetails',
+  components: {
+    AppIcon,
+  },
+  mixins: [characterMixin],
   props: {
     item: Object,
     deletable: Boolean,

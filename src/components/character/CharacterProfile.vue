@@ -32,14 +32,19 @@
               in Object.entries(character.equipment)"
                 :key="key"
               >
-                <div class="col-2">{{ key }}</div>
+                <div class="col-3">{{ key }}</div>
+                <div class="col-1">
+                  <AppIcon :iconName="getItemIconName(character.classType,value.type)" />
+                </div>
                 <div class="col">{{ value.name }}</div>
               </div>
             </div>
             <div class="col">
               <h5>Skills</h5>
               <div class="row" v-for="skill in character.skills" :key="skill._id">
-                <div class="col-2">icon</div>
+                <div class="col-2">
+                  <AppIcon :iconName="getSkillIconName(skill.type)" />
+                </div>
                 <div class="col">{{ skill.name }}</div>
               </div>
             </div>
@@ -64,12 +69,19 @@
 import { mapState, mapActions } from 'vuex';
 import CharacterProfileInfo from './CharacterProfileInfo.vue';
 import CharacterProfileStatus from './CharacterProfileStatus.vue';
+import AppIcon from '../shared/AppIcon.vue';
+import characterMixin from '../shared/mixins/CharacterMixin.vue';
 
 const images = require.context('@/assets/characters');
 
 export default {
   name: 'CharacterProfile',
-  components: { CharacterProfileInfo, CharacterProfileStatus },
+  components: {
+    CharacterProfileInfo,
+    CharacterProfileStatus,
+    AppIcon,
+  },
+  mixins: [characterMixin],
   created() {
     const accountId = this.$session.get('accountId');
     this.getCharacter(accountId).then((character) => {
@@ -92,23 +104,8 @@ export default {
         : null;
     },
     getImageSource() {
-      const image = images(`./${this.classTypeName}.png`);
+      const image = images(`./${this.getClassName(this.character.classType)}.png`);
       return image;
-    },
-    classTypeName() {
-      let classTypeName = '';
-      if (this.character.classType === 1) {
-        classTypeName = 'saber';
-      } else if (this.character.classType === 2) {
-        classTypeName = 'archer';
-      } else if (this.character.classType === 3) {
-        classTypeName = 'lancer';
-      } else if (this.character.classType === 4) {
-        classTypeName = 'berserker';
-      } else if (this.character.classType === 5) {
-        classTypeName = 'caster';
-      }
-      return classTypeName;
     },
   },
   methods: {

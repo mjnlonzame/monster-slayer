@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Vuelidate from 'vuelidate';
 import VueResource from 'vue-resource';
 import VueSession from 'vue-session';
+import * as svgicon from 'vue-svgicon';
 import App from './App.vue';
 import router from './router';
 import 'bootstrap';
@@ -19,6 +20,19 @@ Vue.config.productionTip = false;
 // vuelidate documentation https://vuelidate.js.org/
 // use installed Vuelidate
 Vue.use(Vuelidate);
+
+// Vue.use(svgicon, {
+//   classPrefix: 'AppIcon-',
+// });
+
+Vue.use(svgicon, {
+  tagName: 'svgicon',
+  defaultWidth: '1.2em',
+  defaultHeight: '1.2em',
+  isStroke: false,
+  isOriginalDefault: true,
+  // classPrefix: 'AppIcon-',
+});
 
 new Vue({
   render: (h) => h(App),

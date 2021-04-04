@@ -11,8 +11,10 @@
             >Character</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link"
-             :to="{name: 'TheDungeon'}" active-class="active">Dungeons</router-link>
+            <router-link
+class="nav-link"
+             :to="{name: 'TheDungeon'}"
+active-class="active">Dungeons</router-link>
           </li>
           <li class="nav-item ml-auto">
             <router-link class="nav-link" :to="{name: 'LoginAccount'}" exact>Logout</router-link>
