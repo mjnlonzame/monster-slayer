@@ -1,6 +1,6 @@
 <template>
   <div id="app" class="container h-100">
-    <header v-if="this.$router.currentRoute.name !== 'LoginAccount'">
+    <header v-if="showNav()">
       <nav>
         <ul class="nav nav-pills mr-auto">
           <li class="nav-item">
@@ -11,8 +11,10 @@
             >Character</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" :to="{name: 'TheDungeon'}" active-class="active">
-              Dungeons</router-link>
+            <router-link
+            class="nav-link"
+to="/dungeons"
+active-class="active">Dungeons</router-link>
           </li>
           <li class="nav-item ml-auto">
             <router-link class="nav-link" :to="{name: 'LoginAccount'}" exact>Logout</router-link>
@@ -20,9 +22,26 @@
         </ul>
       </nav>
     </header>
-    <div>
-      <router-view />
+    <div class="app-header">
+      <div class="row justify-content-center align-items-center">
+        <div class="col-1">
+          <div v-if="$route.meta.previousPath">
+            <router-link
+            class="back-route"
+:to="{name: $route.meta.previousPath}">&laquo; Back</router-link>
+          </div>
+        </div>
+        <div class="col ">
+          <h4 class="text-center font-weight-bold">{{$route.meta.title}}</h4>
+        </div>
+        <div class="col-2">
+        </div>
+
+      </div>
     </div>
+    <main>
+      <router-view />
+    </main>
   </div>
 </template>
 
@@ -53,6 +72,9 @@ export default {
         this.account = { ...JSON.parse(account) };
       }
     },
+    showNav() {
+      return !['LoginAccount', 'UserForm'].includes(this.$router.currentRoute.name);
+    },
   },
 };
 </script>
@@ -61,6 +83,15 @@ export default {
 html {
   background-repeat: no-repeat;
   background-size: cover;
+}
+
+.back-route {
+  text-decoration: none;
+  color: black !important;
+}
+
+.app-header {
+  min-height: 10px;
 }
 
 #app {
@@ -91,7 +122,6 @@ img {
 .gray-border {
   height: 100%;
   border: 2px solid white;
-  margin: 3px;
   border-radius: 8px;
   padding: 10px;
 }
@@ -99,5 +129,4 @@ img {
   background-image: linear-gradient(90deg, #000, #00008b);
   color: white;
 }
-
 </style>

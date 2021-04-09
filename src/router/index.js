@@ -13,47 +13,70 @@ Vue.use(Router);
 
 const router = new Router({
   mode: 'history',
-  routes: [
-    {
+  routes: [{
       path: '/account/create',
       name: 'UserForm',
       component: UserForm,
-
+      meta: {
+        title: 'Account Creation',
+        previousPath: 'LoginAccount',
+      },
     },
     {
       path: '/login',
       name: 'LoginAccount',
       component: LoginAccount,
       alias: '/',
+      meta: {
+        title: 'Login',
+      },
 
+    },
+    {
+      path: '/dungeons',
+      name: 'TheDungeon',
+      component: TheDungeon,
+      meta: {
+        title: 'Dungeons',
+      },
     },
     {
       path: '/dungeons/:dungeonId',
       name: 'BattleField',
       component: BattleField,
       props: true,
+      meta: {
+        title: 'BattleField',
+        previousPath: 'TheDungeon',
+      },
     },
     {
       path: '/character',
       name: 'CharacterProfile',
       component: CharacterProfile,
+      meta: {
+        title: 'Character Profile',
+      },
     },
     {
       path: '/character/inventory',
       name: 'CharacterInventory',
       component: CharacterInventory,
+      meta: {
+        title: 'Inventory',
+        previousPath: 'CharacterProfile',
+      },
     },
     {
       path: '/character/skills',
       name: 'CharacterSkills',
       component: CharacterSkills,
+      meta: {
+        title: 'Skills',
+        previousPath: 'CharacterProfile',
+      },
     },
 
-    {
-      path: '/dungeons',
-      name: 'TheDungeon',
-      component: TheDungeon,
-    },
   ],
 });
 
@@ -64,7 +87,9 @@ router.beforeEach((to, from, next) => {
   if (router.app.$session.exists()) {
     next();
   } else {
-    next({ name: 'LoginAccount' });
+    next({
+      name: 'LoginAccount',
+    });
   }
 });
 

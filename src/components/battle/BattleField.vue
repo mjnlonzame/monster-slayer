@@ -56,15 +56,6 @@
       </div>
       <div class="col">
         <BattleLogs :actionLogs="actionLogs" />
-        <!-- <div class="play-again-box border border-dark" v-show="battleFinish">
-          <button
-            class="btn btn-secondary btn-lg"
-            @click="battleFinish = !battleFinish; playAgain()"
-          >
-            {{winner}} wins! Play
-            Again?
-          </button>
-        </div>-->
       </div>
     </div>
   </div>
@@ -77,6 +68,7 @@ import BattleFieldIndicators from './BattleFieldIndicators.vue';
 import BattleFieldControls from './BattleFieldControls.vue';
 import HeroImage from './HeroImage.vue';
 import characterMixin from '../shared/mixins/CharacterMixin.vue';
+import resetStoreMixin from '../shared/mixins/ResetStoreMixin.vue';
 
 const dungeonImages = require.context('@/assets/dungeons/');
 
@@ -264,7 +256,7 @@ export default {
     BattleFieldControls,
     HeroImage,
   },
-  mixins: [characterMixin],
+  mixins: [characterMixin, resetStoreMixin],
   props: {
     account: Object,
     dungeonId: String,

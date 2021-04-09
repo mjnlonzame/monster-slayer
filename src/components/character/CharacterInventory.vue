@@ -1,27 +1,15 @@
 <template>
   <div>
-    <h1>Inventory</h1>
     <div class="row" v-if="character && inventories.length > 0">
       <div class="col-9">
         <CharacterInventoryItems
           :inventories="inventories"
           @itemSelected="(selectedItemIndex) => handleItemSelected(selectedItemIndex)"
         />
-        <!-- <div class="inventory-content gray-border">
-          <h1>Items</h1>
-          <div class="row">
-            <div
-              class="col-6"
-              @click="onItemClick(inventory.item, index)"
-              v-for="(inventory, index) in inventories"
-              :key="inventory._id"
-            >{{ inventory.item.name }}</div>
-          </div>
-        </div>-->
       </div>
       <div class="col">
         <div class="row">
-          <div class="col">
+          <div class="col mb-1">
             <CharacterItemDetails
               :item="selectedItem"
               :deletable="deletable"
@@ -31,7 +19,7 @@
           </div>
         </div>
         <div class="row">
-          <div class="col">
+          <div class="col mb-1">
             <CharacterItemDetails :item="equippedItem" :currentEquipement="true" />
           </div>
         </div>
@@ -59,6 +47,7 @@
 import { mapState, mapActions, mapMutations } from 'vuex';
 import CharacterItemDetails from './CharacterItemDetails.vue';
 import CharacterInventoryItems from './CharacterInventoryItems.vue';
+import resetStoreMixin from '../shared/mixins/ResetStoreMixin.vue';
 
 export default {
   name: 'CharacterInventory',
@@ -66,6 +55,7 @@ export default {
     CharacterItemDetails,
     CharacterInventoryItems,
   },
+  mixins: [resetStoreMixin],
   created() {
     const characterId = this.$session.get('characterId');
     this.getInventory(characterId);

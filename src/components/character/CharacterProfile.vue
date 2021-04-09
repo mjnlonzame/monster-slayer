@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h1 class="text-center font-weight-bold">Character Profile</h1>
     <div class="row" v-if="character">
       <div class="col-4">
         <div class="gray-border">
@@ -16,7 +15,7 @@
               </div>
             </div>
             <div class="col">
-              <CharacterProfileStatus
+              <CharacterProfileStats
                 :stats="character.stats"
                 :weaponBonusStats="weaponStats"
                 :armorBonusStats="armorStats"
@@ -68,9 +67,10 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 import CharacterProfileInfo from './CharacterProfileInfo.vue';
-import CharacterProfileStatus from './CharacterProfileStatus.vue';
+import CharacterProfileStats from './CharacterProfileStats.vue';
 import AppIcon from '../shared/AppIcon.vue';
 import characterMixin from '../shared/mixins/CharacterMixin.vue';
+import resetStoreMixin from '../shared/mixins/ResetStoreMixin.vue';
 
 const images = require.context('@/assets/characters');
 
@@ -78,10 +78,10 @@ export default {
   name: 'CharacterProfile',
   components: {
     CharacterProfileInfo,
-    CharacterProfileStatus,
+    CharacterProfileStats,
     AppIcon,
   },
-  mixins: [characterMixin],
+  mixins: [characterMixin, resetStoreMixin],
   created() {
     const accountId = this.$session.get('accountId');
     this.getCharacter(accountId).then((character) => {

@@ -24,7 +24,7 @@
 
 <script>
 export default {
-  name: 'CharacterProfileStatus',
+  name: 'CharacterProfileStats',
   props: {
     stats: Object,
     armorBonusStats: Object,

@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h2>Login</h2>
     <form novalidate @submit.prevent="onLoginClick">
       <div class="form-group">
         <label for="username">Username</label>
@@ -51,14 +50,12 @@
 import { mapActions } from 'vuex';
 import { required } from 'vuelidate/lib/validators';
 import ErrorValidation from '../shared/ErrorValidation.vue';
-// import AccountMixin from '../shared/mixins/AccountMixin.vue';
 
 export default {
   name: 'LoginAccount',
   components: {
     ErrorValidation,
   },
-  // mixins: [AccountMixin],
   data() {
     return {
       username: '',
@@ -69,11 +66,8 @@ export default {
   methods: {
     ...mapActions(['login']),
     onLoginClick() {
-      // this.$v.$touch();
-      console.log(this.password);
       this.login({ username: this.username, password: this.password })
         .then((response) => {
-          console.log(response.accountId);
           this.$session.start();
           this.$session.set('accountId', response.accountId);
           this.$router.push({

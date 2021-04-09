@@ -1,7 +1,6 @@
 <template>
   <div class="main-content">
     <form novalidate>
-      <h1 class="text-center">Account Form</h1>
       <div class="form-group row">
         <label for="fullName" class="col-sm-2 col-form-label">Full name</label>
         <div class="col-sm-10">

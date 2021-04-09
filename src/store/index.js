@@ -29,7 +29,6 @@ export const getDefaultState = () => ({
   inventory: [],
   availableSkills: [],
 });
-// const state = getDefaultState()
 
 Vue.use(Vuex);
 export default new Vuex.Store({
@@ -94,10 +93,8 @@ export default new Vuex.Store({
     login({
       commit,
     }, loginDetails) {
-      console.log(loginDetails);
       return axios.post('/api/accounts/login', loginDetails).then((response) => {
         commit('updateCurrentAccount', response.data);
-        // dispatch('getCharacter');
         return response.data;
       }).catch(console.error);
     },

@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h1>Skills</h1>
     <div class="row" v-if="currentSkills">
       <div class="col-9">
         <CharacterSkillsAvailable
@@ -10,14 +9,14 @@
       </div>
       <div class="col">
         <div class="row">
-          <div class="col">
+          <div class="col mb-1">
             <CharacterSkillDetails
             :skill="selectedSkill"
             />
           </div>
         </div>
         <div class="row">
-          <div class="col">
+          <div class="col mb-1">
             <CharacterSkillsEquipped
               :skills="currentSkills"
               @skillRemoved="(selectedSkillId) => handleSkillRemoved(selectedSkillId)"
@@ -49,6 +48,7 @@ import { mapState, mapActions } from 'vuex';
 import CharacterSkillDetails from './CharacterSkillDetails.vue';
 import CharacterSkillsEquipped from './CharacterSkillsEquipped.vue';
 import CharacterSkillsAvailable from './CharacterSkillsAvailable.vue';
+import resetStoreMixin from '../shared/mixins/ResetStoreMixin.vue';
 
 export default {
   name: 'CharacterSkills',
@@ -57,6 +57,7 @@ export default {
     CharacterSkillsEquipped,
     CharacterSkillsAvailable,
   },
+  mixins: [resetStoreMixin],
   created() {
     const characterId = this.$session.get('characterId');
     this.getAvailableSkills(characterId);

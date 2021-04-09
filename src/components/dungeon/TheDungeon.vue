@@ -1,9 +1,8 @@
 <template>
   <div>
-    <h1 class="text-center">Dungeons</h1>
     <div v-if="dungeons && dungeons.length > 0" class="row">
-      <div class="col-6 ">
-        <div class="dungeon-images-box gray-border ">
+      <div class="col-6">
+        <div class="dungeon-images-box gray-border">
           <TheDungeonImage
             v-for="dungeon in dungeons"
             :key="dungeon.id"
@@ -13,7 +12,7 @@
         </div>
       </div>
       <div class="col-6">
-        <div class="gray-border" >
+        <div class="gray-border">
           <TheDungeonInfo :dungeon="selectedDungeon" />
         </div>
       </div>
@@ -22,9 +21,10 @@
 </template>
 
 <script>
-import { mapState, mapActions, mapMutations } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 import TheDungeonImage from './TheDungeonImage.vue';
 import TheDungeonInfo from './TheDungeonInfo.vue';
+import resetStoreMixin from '../shared/mixins/ResetStoreMixin.vue';
 
 export default {
   name: 'TheDungeon',
@@ -34,6 +34,7 @@ export default {
       selectedDungeon: {},
     };
   },
+  mixins: [resetStoreMixin],
   created() {
     const accountId = this.$session.get('accountId');
     console.log(`account id from session : ${accountId}`);
@@ -53,7 +54,6 @@ export default {
   },
   methods: {
     ...mapActions(['getDungeons', 'enterDungeon']),
-    ...mapMutations(['resetState']),
     handleDungeonClicked(dungeon) {
       console.log(dungeon);
       // console.log(dungeon.enemies[0]._);
@@ -61,11 +61,6 @@ export default {
     },
   },
   // eslint-disable-next-line no-unused-vars
-  beforeRouteLeave(to, from, next) {
-    console.log('resetting..');
-    this.resetState();
-    next();
-  },
 };
 </script>
 
