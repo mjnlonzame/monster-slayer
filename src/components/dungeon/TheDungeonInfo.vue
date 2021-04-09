@@ -4,10 +4,12 @@
       <div class="col">
         <h3>{{ dungeon.name }}</h3>
       </div>
-      <div class="col">
-        <button v-show="!dungeon.locked" class="btn btn-secondary" @click="onClickEnterDungeon">
-          Enter
-        </button>
+      <div class="col-4">
+        <button
+          v-show="!dungeon.locked"
+          class="btn btn-dark btn-enter"
+          @click="onClickEnterDungeon"
+        >Enter</button>
       </div>
     </div>
     <div class="row">
@@ -16,40 +18,65 @@
       </div>
       <div class="col">{{ dungeon.recommendedLevel }}</div>
     </div>
-    <h5>Encounters/Drops:</h5>
-    <div class="row" v-for="regularEnemy in regularEnemies" :key="regularEnemy._id">
-      <div class="col-3 font-weight-normal font-italic">{{ regularEnemy.name }}</div>
-      <div class="col">
-        <div class="row" v-if="regularEnemy.drops.length > 0">
-          <ul class="col list-unstyled" v-for="drop in regularEnemy.drops" :key="drop._id">
-            <li class="text-nowrap font-weight-lighter">{{ drop.name }}</li>
-          </ul>
+    <div class="monster-drops-info" v-if="!dungeon.locked">
+      <div class="regular-enemy-info">
+        <h5>Encounters/Drops:</h5>
+        <div class="row" v-for="regularEnemy in regularEnemies" :key="regularEnemy._id">
+          <div class="col-3 font-weight-normal font-italic">{{ regularEnemy.name }}</div>
+          <div class="col">
+            <div class="row" v-if="regularEnemy.drops && regularEnemy.drops.length > 0">
+              <ul class="col list-unstyled" v-for="drop in regularEnemy.drops" :key="drop._id">
+                <li class="text-nowrap font-weight-lighter">
+                  <AppIcon :iconName="getItemIconName(drop.classId, drop.type)" />
+                  {{ drop.name }}
+                </li>
+              </ul>
+            </div>
+            <div class="row" v-else>
+              <div class="col font-weight-lighter">None</div>
+            </div>
+          </div>
         </div>
-        <div class="row" v-else>
-          <div class="col font-weight-lighter">None</div>
+      </div>
+      <div class="boss-info" v-if="bossEnemy">
+        <h5>Boss/Drops</h5>
+        <div class="row">
+          <div class="col-3 font-weight-normal font-italic">{{ bossEnemy.name }}</div>
+          <div class="col">
+            <div class="drops-info" v-if="bossEnemy.drops && bossEnemy.drops.length > 0">
+              <ul class="col list-unstyled" v-for="drop in bossEnemy.drops" :key="drop._id">
+                <li class="text-nowrap font-weight-lighter">
+                  <AppIcon :iconName="getItemIconName(drop.classId, drop.type)" />
+                  {{ drop.name }}
+                </li>
+              </ul>
+            </div>
+            <div class="row" v-else>
+              <div class="col font-weight-lighter">None</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-    <h5>Boss/Drops</h5>
-    <div class="row">
-      <div class="col-3 font-weight-normal font-italic">{{ bossEnemy.name }}</div>
-      <div class="col">
-        <div class="row" v-if="bossEnemy.drops.length > 0">
-          <ul class="col list-unstyled" v-for="drop in bossEnemy.drops" :key="drop._id">
-            <li class="text-nowrap font-weight-lighter">{{ drop.name }}</li>
-          </ul>
-        </div>
-        <div class="row" v-else>
-          <div class="col font-weight-lighter">None</div>
-        </div>
+    <div class="locked-info" v-else>
+      <div class="row">
+        <div class="col-3">Requirements</div>
+        <div class="col">Defeat {{dungeon.bossReq.name}} from the previous dungeon.</div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import AppIcon from '../shared/AppIcon.vue';
+import characterMixin from '../shared/mixins/CharacterMixin.vue';
+
 export default {
   name: 'TheDungeonInfo',
+  components: {
+    AppIcon,
+  },
+  mixins: [characterMixin],
   props: {
     dungeon: Object,
   },
@@ -79,6 +106,9 @@ export default {
 </script>
 
 <style scoped>
+.btn-enter {
+  padding: 5px 50px;
+}
 /*
 .dungeon-info-content {
   overflow-y: scroll;

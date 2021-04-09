@@ -1,7 +1,7 @@
 <template>
   <div class="item-details-content gray-border">
-    <div class="item-header" v-if="currentEquipement">Current Equipment</div>
-    <div class="item-header" v-if="!currentEquipement">
+    <div class="item-header font-weight-bold" v-if="currentEquipement">Current Equipment</div>
+    <div class="item-header font-weight-bold" v-else>
       Selected Item
       <span class="delete-item" @click="onDeleteClick" v-if="deletable">(Delete)</span>
     </div>

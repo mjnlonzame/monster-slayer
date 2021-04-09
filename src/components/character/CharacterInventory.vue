@@ -38,14 +38,14 @@
 
         <div>
           <button
-            class="btn btn-secondary btn-block m-2"
+            class="btn btn-dark btn-block m-2"
             @click="onEquipClick"
             :disabled="!equippable"
           >Equip</button>
         </div>
         <div>
           <button
-            class="btn btn-secondary btn-block m-2"
+            class="btn btn-dark btn-block m-2"
             @click="onSaveClick"
             :disabled="!savable"
           >Save</button>
@@ -160,11 +160,11 @@ export default {
       );
       console.log(`inventories size ${this.inventories.length}`);
       this.deleteItem(this.inventories[this.selectedItemIndex]._id);
+      this.selectedItemIndex = -1;
     },
   },
 };
 </script>
 
 <style scoped>
-
 </style>

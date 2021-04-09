@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 class="text-center">Character Profile</h1>
+    <h1 class="text-center font-weight-bold">Character Profile</h1>
     <div class="row" v-if="character">
       <div class="col-4">
         <div class="gray-border">
@@ -25,7 +25,7 @@
           </div>
           <div class="row mt-4">
             <div class="col">
-              <h5>Equipment</h5>
+              <h5 class="font-weight-bold">Equipment</h5>
               <div
                 class="row"
                 v-for="[key, value]
@@ -40,7 +40,7 @@
               </div>
             </div>
             <div class="col">
-              <h5>Skills</h5>
+              <h5 class="font-weight-bold">Skills</h5>
               <div class="row" v-for="skill in character.skills" :key="skill._id">
                 <div class="col-2">
                   <AppIcon :iconName="getSkillIconName(skill.type)" />
@@ -52,11 +52,11 @@
           <div class="character-actions-content">
             <router-link
               :to="{ name: 'CharacterInventory' }"
-              class="btn-router btn btn-secondary"
+              class="btn-router btn btn-dark"
             >Inventory</router-link>
             <router-link
               :to="{ name: 'CharacterSkills' }"
-              class="btn-router btn btn-secondary"
+              class="btn-router btn btn-dark"
             >Skills</router-link>
           </div>
         </div>
@@ -122,6 +122,7 @@ export default {
 }
 
 .character-actions-content {
+  margin-top:10px;
   text-align: right;
 }
 </style>

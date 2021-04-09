@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="battle-indicators-content">
     <div class="row">
       <div class="col">
         <div class="health-bar">
@@ -34,12 +34,12 @@
     </div>
 
     <!-- <span class="text-center">Level {{level}} {{playerName}}</span> -->
-    <div class="parent">
+    <div class="parent dark-bg">
       <div class="left">
-          <div class="col">Health: {{health | status}} / {{MAX_HP}}</div>
-          <div class="col">Mana: {{mana | status }} / {{MAX_MANA}}</div>
+        <div class="col">Health: {{health | status}} / {{MAX_HP}}</div>
+        <div class="col">Mana: {{mana | status }} / {{MAX_MANA}}</div>
       </div>
-      <div class="center">Level {{level}} {{playerName}}</div>
+      <div class="player-name center">Level {{level}} {{playerName}}</div>
       <div class="right"></div>
     </div>
   </div>
@@ -89,8 +89,11 @@ export default {
 </script>
 
 <style scoped>
+.battle-indicators-content {
+  /* text-shadow: 0 0 5px white; */
+}
 .health-bar .progress {
-  min-height: 30px;
+  height: 25px;
 }
 
 .health-bar .progress .progress-bar {
@@ -102,17 +105,15 @@ export default {
 }
 
 .mana-bar .progress {
-  min-height: 15px;
+  height: 7px;
 }
 
 .health-bar {
-  margin-bottom: 10px;
+  margin-bottom: 5px;
 }
 
-.player {
-  text-align: center;
-  font-size: 1rem;
-  margin-top: 5px;
+.player-name {
+  font-size: 1.2rem;
 }
 
 .panel-footer {
@@ -123,13 +124,14 @@ export default {
 .parent {
   display: flex;
 }
-.left, .right {
+.left,
+.right {
   flex: 1;
-  font-size: .8rem;
+  font-size: 0.8rem;
 }
 
 .center {
-    position: relative;
-    margin: auto;
+  position: relative;
+  margin: auto;
 }
 </style>

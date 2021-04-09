@@ -1,6 +1,12 @@
 <template>
   <div class="content">
     <h5 class="text-center">Character Stats</h5>
+    <div class="row">
+      <div class="col font-weight-bold">Attrib</div>
+      <div class="col-3 font-weight-bold">Base</div>
+      <div class="col-3 font-weight-bold">Bonus</div>
+      <div class="col-3 font-weight-bold">Total  </div>
+    </div>
     <div
       class="row"
       v-for="([key, value], index) of Object.entries(stats).filter(
@@ -8,7 +14,7 @@
       )"
       :key="index"
     >
-      <div class="col">{{ key }}</div>
+      <div class="col font-weight-bold">{{ key }}</div>
       <div class="col-3">{{ value }}</div>
       <div class="col-3">{{ bonusStats[key] }}</div>
       <div class="col-3">{{ bonusStats[key] + value }}</div>

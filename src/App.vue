@@ -1,5 +1,5 @@
 <template>
-  <div id="app" class="container  h-100">
+  <div id="app" class="container h-100">
     <header v-if="this.$router.currentRoute.name !== 'LoginAccount'">
       <nav>
         <ul class="nav nav-pills mr-auto">
@@ -11,10 +11,8 @@
             >Character</router-link>
           </li>
           <li class="nav-item">
-            <router-link
-class="nav-link"
-             :to="{name: 'TheDungeon'}"
-active-class="active">Dungeons</router-link>
+            <router-link class="nav-link" :to="{name: 'TheDungeon'}" active-class="active">
+              Dungeons</router-link>
           </li>
           <li class="nav-item ml-auto">
             <router-link class="nav-link" :to="{name: 'LoginAccount'}" exact>Logout</router-link>
@@ -25,7 +23,6 @@ active-class="active">Dungeons</router-link>
     <div>
       <router-view />
     </div>
-
   </div>
 </template>
 
@@ -61,10 +58,23 @@ export default {
 </script>
 
 <style>
+html {
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: Segoe UI, Tahoma, Geneva, Verdana, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+img {
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+  user-drag: none;
 }
 
 .router-link-active {
@@ -79,10 +89,15 @@ export default {
 }
 
 .gray-border {
-    height: 100%;
-    border: 2px solid gray;
-    margin: 3px;
-    border-radius: 8px;
-    padding: 10px;
+  height: 100%;
+  border: 2px solid white;
+  margin: 3px;
+  border-radius: 8px;
+  padding: 10px;
 }
+.dark-bg {
+  background-image: linear-gradient(90deg, #000, #00008b);
+  color: white;
+}
+
 </style>

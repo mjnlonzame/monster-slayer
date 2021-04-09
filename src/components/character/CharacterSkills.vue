@@ -27,14 +27,14 @@
 
         <div class>
           <button
-            class="btn btn-secondary btn-block m-2"
+            class="btn btn-dark btn-block m-2"
             @click="onEquipClick"
             :disabled="!equippable"
           >Equip</button>
         </div>
         <div class>
           <button
-            class="btn btn-secondary btn-block m-2"
+            class="btn btn-dark btn-block m-2"
             @click="onSaveClick"
             :disabled="!savable"
           >Save</button>

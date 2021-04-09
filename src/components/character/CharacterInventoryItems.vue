@@ -45,7 +45,7 @@ export default {
 .inventory-items-content {
   height: 600px;
   overflow-y: scroll;
-  overflow-x:hidden;
+  overflow-x: hidden;
 }
 
 .item-content {

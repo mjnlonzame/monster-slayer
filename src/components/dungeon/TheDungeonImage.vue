@@ -1,5 +1,6 @@
 <template>
-    <div class="dungeon-image" :style="getImageSource" @click="onDungeonClick">
+  <div class="dungeon-image" :style="backgroundImage" @click="onDungeonClick">
+    <img class="locked-icon" :src="getImageSource()" v-if="dungeon.locked" />
   </div>
 </template>
 <script>
@@ -11,14 +12,16 @@ export default {
   },
 
   computed: {
-    getImageSource() {
+    backgroundImage() {
       const image = images(`./${this.dungeon.image}.jpg`);
-      // console.log(`image: ${image}`);
       return `background-image: url(${image})`;
-      // return images(`./${this.dungeon.image}.jpg`);
     },
   },
   methods: {
+    getImageSource() {
+      const image = images('./locked-icon.png');
+      return image;
+    },
     onDungeonClick() {
       console.log(this.dungeon.name);
       this.$emit('dungeonClicked', this.dungeon);
@@ -27,14 +30,19 @@ export default {
 };
 </script>
 <style scoped>
-
 .dungeon-image {
-    /* padding: 120px; */
+  /* padding: 120px; */
   background-repeat: no-repeat;
   background-size: contain;
   height: 200px;
   background-position: top;
   margin-bottom: 20px;
+  /* opacity: 0.7 */
 }
 
+.locked-icon {
+  height: 200px;
+  width: 400px;
+  opacity: 0.5;
+}
 </style>

@@ -117,6 +117,11 @@ function getValidMana(maxMana, mana) {
   return mana > maxMana ? maxMana : mana >= 0 ? mana : 0;
 }
 
+function getValidHealth(maxHealth, health) {
+  // eslint-disable-next-line no-nested-ternary
+  return health > maxHealth ? maxHealth : health >= 0 ? health : 0;
+}
+
 function manaFull(maxMana, mana) {
   return maxMana === mana;
 }
@@ -231,11 +236,13 @@ function useSkill(player, enemy, skill) {
   if (skill.target === 'enemy') {
     skillSummary.damageDetails = computeDamage(player, enemy, skill);
     enemy.stats.health -= skillSummary.damageDetails.totalDamage;
+    enemy.stats.health = getValidHealth(enemy.stats.maxHealth, enemy.stats.health);
     currentMana = player.stats.mana - skill.cost;
   } else if (skill.damage < 0) {
     skillSummary.regenType = 'health';
     skillSummary.regenAmount = player.stats.int;
     player.stats.health += player.stats.int;
+    player.stats.health = getValidHealth(player.stats.maxHealth, player.stats.health);
     currentMana = player.stats.mana - skill.cost;
   } else {
     skillSummary.regenType = 'mana';
@@ -243,6 +250,7 @@ function useSkill(player, enemy, skill) {
     currentMana = player.stats.mana + player.stats.int * 0.75;
   }
   player.stats.mana = getValidMana(player.stats.maxMana, currentMana);
+  // getValidHealth
   console.log(`${player.name} skill summary:`);
   console.log(skillSummary);
   return skillSummary;
@@ -293,7 +301,7 @@ export default {
     handleSkillClicked(skill) {
       const skillSummary = useSkill(this.character, this.enemy, skill);
       this.logAction(this.character, skill, skillSummary);
-      this.initEnemyTurn();
+      if (this.enemy.stats.health > 0) this.initEnemyTurn();
     },
     handlePlayerLose(loser) {
       this.battleFinish = true;
@@ -308,16 +316,23 @@ export default {
         this.finishBattle(battleRequest).then((response) => {
           console.log(response);
           alert(`Exp Gained: ${response.exp}\nItem Drop: ${response.drop}`);
-          // eslint-disable-next-line no-restricted-globals
-          if (confirm('Re-Enter Dungeon?')) {
-            // Save it!
-            console.log('Thing was saved to the database.');
-            this.$router.go(this.$router.currentRoute);
-          } else {
-            this.$router.push({
-              name: 'TheDungeon',
-            });
-          }
+
+          this.promptReEnterDungeon();
+        });
+      } else {
+        setTimeout(() => {
+          this.promptReEnterDungeon();
+          console.log('PLAYER LOSE!!');
+        }, 500);
+      }
+    },
+    promptReEnterDungeon() {
+      // eslint-disable-next-line no-restricted-globals
+      if (confirm('Re-Enter Dungeon?')) {
+        this.$router.go(this.$router.currentRoute);
+      } else {
+        this.$router.push({
+          name: 'TheDungeon',
         });
       }
     },
