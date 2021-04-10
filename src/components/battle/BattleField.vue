@@ -1,6 +1,74 @@
 <template>
   <!-- v-if="!isChar1Loading && !isChar2Loading"  -->
   <div class="container-bg" v-if="character && enemy && dungeon" :style="getBackgroundImage">
+    <!-- Start of Reenter Modal -->
+    <div
+      class="modal fade"
+      :class="{ show : battleFinish,
+      'd-block': battleFinish}"
+      id="exampleModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered modal" role="document">
+        <div class="modal-content">
+          <div class="modal-body">
+            <h2 class="text-center">Re-enter Dungeon?</h2>
+          </div>
+          <div class="modal-footer justify-content-center">
+            <button type="button" class="btn btn-secondary" @click="onReEnterClick(true)">
+              Yes</button>
+            <button type="button" class="btn btn-secondary" @click="onReEnterClick(false)">
+              No</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End of Reenter MOdal -->
+
+    <!-- Start of Battle Result Modal -->
+    <div
+      class="modal fade"
+      :class="{ show : battleResult,
+      'd-block': battleResult}"
+      id="exampleModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered modal" role="document">
+        <div class="modal-content" v-if="battleResult">
+          <div class="modal-body">
+            <h2 class="text-center">Battle Results</h2>
+            <h2 class="text-center" v-if="battleResult.lvlUp">Level up!!!</h2>
+            <div class="row">
+              <div class="col">Exp Gained:</div>
+              <div class="col">{{battleResult.exp}}</div>
+            </div>
+            <div class="row">
+              <div class="col">Item Drop:</div>
+              <div class="col">{{battleResult.drop || 'NONE'}}</div>
+            </div>
+            <div class="row" v-if="battleResult.newSkills.length > 0">
+              <div class="col">Skill Learned:</div>
+              <div class="col">{{battleResult.newSkills[0]}}</div>
+            </div>
+            <div class="row" v-if="battleResult.unlockedDungeons.length  > 0">
+              <div class="col">Dungeon Unlocked:</div>
+              <div class="col">{{battleResult.unlockedDungeons[0]}}</div>
+            </div>
+          </div>
+          <div class="modal-footer justify-content-center">
+            <button type="button" class="btn btn-secondary" @click="onClickClose">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End of Battle Result MOdal -->
+
     <div class="row">
       <div class="col">
         <div class="indicator-box">
@@ -228,13 +296,19 @@ function useSkill(player, enemy, skill) {
   if (skill.target === 'enemy') {
     skillSummary.damageDetails = computeDamage(player, enemy, skill);
     enemy.stats.health -= skillSummary.damageDetails.totalDamage;
-    enemy.stats.health = getValidHealth(enemy.stats.maxHealth, enemy.stats.health);
+    enemy.stats.health = getValidHealth(
+      enemy.stats.maxHealth,
+      enemy.stats.health,
+    );
     currentMana = player.stats.mana - skill.cost;
   } else if (skill.damage < 0) {
     skillSummary.regenType = 'health';
     skillSummary.regenAmount = player.stats.int;
     player.stats.health += player.stats.int;
-    player.stats.health = getValidHealth(player.stats.maxHealth, player.stats.health);
+    player.stats.health = getValidHealth(
+      player.stats.maxHealth,
+      player.stats.health,
+    );
     currentMana = player.stats.mana - skill.cost;
   } else {
     skillSummary.regenType = 'mana';
@@ -266,6 +340,7 @@ export default {
       actionLogs: [],
       battleFinish: false,
       winner: '',
+      battleResult: false,
     };
   },
   created() {
@@ -296,7 +371,6 @@ export default {
       if (this.enemy.stats.health > 0) this.initEnemyTurn();
     },
     handlePlayerLose(loser) {
-      this.battleFinish = true;
       console.log(`loser is ${loser}`);
       if (loser !== 'character') {
         const battleRequest = {
@@ -304,23 +378,22 @@ export default {
           dungeonId: this.dungeonId,
           enemyId: this.enemy._id,
         };
-
         this.finishBattle(battleRequest).then((response) => {
-          console.log(response);
-          alert(`Exp Gained: ${response.exp}\nItem Drop: ${response.drop}`);
-
-          this.promptReEnterDungeon();
+          this.battleResult = response;
         });
       } else {
+        // TODO: wait for the useSkill to finish before the handlePlayerLose gets call
         setTimeout(() => {
-          this.promptReEnterDungeon();
-          console.log('PLAYER LOSE!!');
+          this.battleFinish = true;
         }, 500);
       }
     },
-    promptReEnterDungeon() {
-      // eslint-disable-next-line no-restricted-globals
-      if (confirm('Re-Enter Dungeon?')) {
+    onClickClose() {
+      this.battleResult = null;
+      this.battleFinish = true;
+    },
+    onReEnterClick(reEnter) {
+      if (reEnter) {
         this.$router.go(this.$router.currentRoute);
       } else {
         this.$router.push({

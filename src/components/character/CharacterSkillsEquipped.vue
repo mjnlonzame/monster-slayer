@@ -27,20 +27,13 @@ export default {
     skills: Array,
   },
   computed: {
-    // currentSkills() {
-    //   return this.skills;
-    // },
     removable() {
       return this.skills.length > 1;
     },
   },
   methods: {
     onRemoveClick(selectedSkillId) {
-      console.log(this.skills);
       this.$emit('skillRemoved', selectedSkillId);
-      //   this.skills = this.skills.filter(
-      //     (skill) => skill._id !== selectedSkill._id,
-      //   );
     },
   },
 };

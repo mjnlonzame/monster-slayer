@@ -1,6 +1,6 @@
 <template>
   <div class="content">
-    <h5 class="text-center">Character Stats</h5>
+    <h5 class="font-weight-bold text-center">Character Stats</h5>
     <div class="row">
       <div class="col font-weight-bold">Attrib</div>
       <div class="col-3 font-weight-bold">Base</div>
@@ -32,7 +32,6 @@ export default {
   },
   computed: {
     bonusStats() {
-      console.log(this.armorBonusStats, this.weapon);
       const bonusStats = { ...this.armorBonusStats };
       const weaponStats = { ...this.weaponBonusStats };
       Object.entries(weaponStats).forEach(([key, val]) => {

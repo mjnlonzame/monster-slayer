@@ -1,13 +1,9 @@
 <script>
 export default {
-
-  computed: {
-
-  },
+  computed: {},
   methods: {
     getSkillIconName(skillType) {
       const fullSkillTypeName = skillType === 'M' ? 'MAGICAL' : 'PHYSICAL';
-      console.log(fullSkillTypeName);
       return fullSkillTypeName;
     },
     getItemIconName(classType, weaponType) {
@@ -15,7 +11,6 @@ export default {
     },
     getClassName(classType) {
       let className = '';
-      // const { classType } = this.character;
       if (classType === 1) {
         className = 'saber';
       } else if (classType === 2) {

@@ -12,12 +12,15 @@
           </li>
           <li class="nav-item">
             <router-link
-            class="nav-link"
-to="/dungeons"
+class="nav-link"
+             to="/dungeons"
 active-class="active">Dungeons</router-link>
           </li>
           <li class="nav-item ml-auto">
-            <router-link class="nav-link" :to="{name: 'LoginAccount'}" exact>Logout</router-link>
+            <router-link
+class="nav-link"
+            :to="{name: 'LoginAccount'}"
+exact>Logout</router-link>
           </li>
         </ul>
       </nav>
@@ -27,16 +30,14 @@ active-class="active">Dungeons</router-link>
         <div class="col-1">
           <div v-if="$route.meta.previousPath">
             <router-link
-            class="back-route"
-:to="{name: $route.meta.previousPath}">&laquo; Back</router-link>
+class="back-route"
+            :to="{name: $route.meta.previousPath}">&laquo; Back</router-link>
           </div>
         </div>
-        <div class="col ">
+        <div class="col">
           <h4 class="text-center font-weight-bold">{{$route.meta.title}}</h4>
         </div>
-        <div class="col-2">
-        </div>
-
+        <div class="col-2"></div>
       </div>
     </div>
     <main>
@@ -53,27 +54,14 @@ export default {
       account: null,
     };
   },
-  created() {
-    this.getAccountFromLocalStorage();
-  },
+  created() {},
   components: {},
-  computed: {
-    hasAccount() {
-      return this.account !== null;
-    },
-  },
+  computed: {},
   methods: {
-    handleAccountCreated() {
-      this.getAccountFromLocalStorage();
-    },
-    getAccountFromLocalStorage() {
-      const account = localStorage.getItem('currentAccount');
-      if (account) {
-        this.account = { ...JSON.parse(account) };
-      }
-    },
     showNav() {
-      return !['LoginAccount', 'UserForm'].includes(this.$router.currentRoute.name);
+      return !['LoginAccount', 'UserForm'].includes(
+        this.$router.currentRoute.name,
+      );
     },
   },
 };

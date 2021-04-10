@@ -23,7 +23,6 @@ export default {
       return image;
     },
     onDungeonClick() {
-      console.log(this.dungeon.name);
       this.$emit('dungeonClicked', this.dungeon);
     },
   },
@@ -31,13 +30,11 @@ export default {
 </script>
 <style scoped>
 .dungeon-image {
-  /* padding: 120px; */
   background-repeat: no-repeat;
   background-size: contain;
   height: 200px;
   background-position: top;
   margin-bottom: 20px;
-  /* opacity: 0.7 */
 }
 
 .locked-icon {

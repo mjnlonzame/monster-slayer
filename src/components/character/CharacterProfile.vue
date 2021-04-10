@@ -24,14 +24,14 @@
           </div>
           <div class="row mt-4">
             <div class="col">
-              <h5 class="font-weight-bold">Equipment</h5>
+              <h5 class="font-weight-bold text-center">Equipment</h5>
               <div
                 class="row"
                 v-for="[key, value]
               in Object.entries(character.equipment)"
                 :key="key"
               >
-                <div class="col-3">{{ key }}</div>
+                <div class="col-3 font-weight-bold">{{ key }}</div>
                 <div class="col-1">
                   <AppIcon :iconName="getItemIconName(character.classType,value.type)" />
                 </div>
@@ -39,7 +39,7 @@
               </div>
             </div>
             <div class="col">
-              <h5 class="font-weight-bold">Skills</h5>
+              <h5 class="font-weight-bold text-center">Skills</h5>
               <div class="row" v-for="skill in character.skills" :key="skill._id">
                 <div class="col-2">
                   <AppIcon :iconName="getSkillIconName(skill.type)" />

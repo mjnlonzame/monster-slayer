@@ -10,9 +10,7 @@
       <div class="col">
         <div class="row">
           <div class="col mb-1">
-            <CharacterSkillDetails
-            :skill="selectedSkill"
-            />
+            <CharacterSkillDetails :skill="selectedSkill" />
           </div>
         </div>
         <div class="row">
@@ -24,20 +22,32 @@
           </div>
         </div>
 
-        <div class>
-          <button
-            class="btn btn-dark btn-block m-2"
-            @click="onEquipClick"
-            :disabled="!equippable"
-          >Equip</button>
+        <div>
+          <div class="row justify-content-center align-items-center">
+            <div class="col-1">
+              <HoverMessage :message="warningMessage">
+                <AppIcon iconName="warning" />
+              </HoverMessage>
+            </div>
+            <div class="col">
+              <div>
+                <button
+                  class="btn btn-dark btn-block m-2"
+                  @click="onEquipClick"
+                  :disabled="!equippable"
+                >Equip</button>
+              </div>
+              <div>
+                <button
+                  class="btn btn-dark btn-block m-2"
+                  @click="onSaveClick"
+                  :disabled="!savable"
+                >Save</button>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class>
-          <button
-            class="btn btn-dark btn-block m-2"
-            @click="onSaveClick"
-            :disabled="!savable"
-          >Save</button>
-        </div>
+
       </div>
     </div>
   </div>
@@ -47,8 +57,10 @@
 import { mapState, mapActions } from 'vuex';
 import CharacterSkillDetails from './CharacterSkillDetails.vue';
 import CharacterSkillsEquipped from './CharacterSkillsEquipped.vue';
+import HoverMessage from '../shared/HoverMessage.vue';
 import CharacterSkillsAvailable from './CharacterSkillsAvailable.vue';
 import resetStoreMixin from '../shared/mixins/ResetStoreMixin.vue';
+import AppIcon from '../shared/AppIcon.vue';
 
 export default {
   name: 'CharacterSkills',
@@ -56,6 +68,8 @@ export default {
     CharacterSkillDetails,
     CharacterSkillsEquipped,
     CharacterSkillsAvailable,
+    HoverMessage,
+    AppIcon,
   },
   mixins: [resetStoreMixin],
   created() {
@@ -77,6 +91,15 @@ export default {
       availableSkills: (state) => state.availableSkills,
       character: (state) => state.character,
     }),
+    warningMessage() {
+      if (this.currentSkills.length === 4) {
+        return 'Cannot equip any more skills';
+      }
+      if (this.selectedSkill && this.skillSelectedExists) {
+        return 'Selected skill is already equipped';
+      }
+      return null;
+    },
     selectedSkill() {
       return this.availableSkills[this.selectedSkillIndex];
     },
@@ -86,7 +109,6 @@ export default {
       );
     },
     equippable() {
-      console.log(this.currentSkills.length);
       return (
         this.selectedSkill
         && this.currentSkills.length < 4
@@ -97,8 +119,6 @@ export default {
       return true;
     },
     savable() {
-      console.log(this.currentSkills);
-      console.log(this.character.skills);
       const oldSkillIds = this.character.skills.map((skill) => skill._id);
       const currentSkillIds = this.currentSkills.map((skill) => skill._id);
       return (
@@ -111,14 +131,10 @@ export default {
   methods: {
     ...mapActions(['getAvailableSkills', 'getCharacter', 'updateSkills']),
 
-    // onSkillClick(skill, index) {
-    //   this.selectedSkillIndex = index;
-    // },
     handleSkillSelected(selectedSkillId) {
       this.selectedSkillIndex = selectedSkillId;
     },
     handleSkillRemoved(selectedSkillId) {
-      console.log(`removing skills: ${selectedSkillId}`);
       this.currentSkills = this.currentSkills.filter(
         (skill) => skill._id !== selectedSkillId,
       );

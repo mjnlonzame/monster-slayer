@@ -28,6 +28,7 @@ export const getDefaultState = () => ({
   dungeon: null,
   inventory: [],
   availableSkills: [],
+  loading: true,
 });
 
 Vue.use(Vuex);

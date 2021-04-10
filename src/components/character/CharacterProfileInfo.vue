@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h4 class="text-center">{{character.name}}</h4>
+    <h4 class="font-weight-bold text-center">{{character.name}}</h4>
 
     <div class="row">
       <div class="col font-weight-bold">Level</div>

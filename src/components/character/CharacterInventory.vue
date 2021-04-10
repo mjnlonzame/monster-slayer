@@ -25,18 +25,29 @@
         </div>
 
         <div>
-          <button
-            class="btn btn-dark btn-block m-2"
-            @click="onEquipClick"
-            :disabled="!equippable"
-          >Equip</button>
-        </div>
-        <div>
-          <button
-            class="btn btn-dark btn-block m-2"
-            @click="onSaveClick"
-            :disabled="!savable"
-          >Save</button>
+          <div class="row justify-content-center align-items-center">
+            <div class="col-1">
+              <HoverMessage :message="warningMessage">
+                 <AppIcon iconName="warning" />
+              </HoverMessage>
+            </div>
+            <div class="col">
+              <div>
+                <button
+                  class="btn btn-dark btn-block m-2"
+                  @click="onEquipClick"
+                  :disabled="!equippable"
+                >Equip</button>
+              </div>
+              <div>
+                <button
+                  class="btn btn-dark btn-block m-2"
+                  @click="onSaveClick"
+                  :disabled="!savable"
+                >Save</button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -48,12 +59,16 @@ import { mapState, mapActions, mapMutations } from 'vuex';
 import CharacterItemDetails from './CharacterItemDetails.vue';
 import CharacterInventoryItems from './CharacterInventoryItems.vue';
 import resetStoreMixin from '../shared/mixins/ResetStoreMixin.vue';
+import HoverMessage from '../shared/HoverMessage.vue';
+import AppIcon from '../shared/AppIcon.vue';
 
 export default {
   name: 'CharacterInventory',
   components: {
     CharacterItemDetails,
     CharacterInventoryItems,
+    HoverMessage,
+    AppIcon,
   },
   mixins: [resetStoreMixin],
   created() {
@@ -76,6 +91,14 @@ export default {
       inventories: (state) => state.inventory,
       character: (state) => state.character,
     }),
+    warningMessage() {
+      if (!this.selectedItem) {
+        return 'Select an item to equip';
+      } if (!this.equippable) {
+        return 'Item not suitable to class';
+      }
+        return null;
+    },
     selectedItem() {
       return (
         this.inventories[this.selectedItemIndex]

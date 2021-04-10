@@ -36,11 +36,6 @@ export default {
   },
   mixins: [resetStoreMixin],
   created() {
-    const accountId = this.$session.get('accountId');
-    console.log(`account id from session : ${accountId}`);
-    // TODO: make this dynmaic and move the setting of session in the appropriate place
-
-    // this.$session.set('characterId', characterId);
     const characterId = this.$session.get('characterId');
     this.getDungeons(characterId).then((dungeons) => {
       this.selectedDungeon = dungeons && dungeons.length > 0 ? dungeons[0] : null;
@@ -55,8 +50,6 @@ export default {
   methods: {
     ...mapActions(['getDungeons', 'enterDungeon']),
     handleDungeonClicked(dungeon) {
-      console.log(dungeon);
-      // console.log(dungeon.enemies[0]._);
       this.selectedDungeon = dungeon;
     },
   },
