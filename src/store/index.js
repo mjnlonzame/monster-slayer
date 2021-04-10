@@ -126,7 +126,6 @@ export default new Vuex.Store({
       axios
         .delete(`/api/character/${characterId}/inventory/${inventoryId}`).then(() => {
           const inventoriesCopy = [...state.inventory];
-          // console.log(inventoriesCopy[this.selectedItemIndex]);
           const newInventories = inventoriesCopy.filter(
             (inventory) => inventory._id !== inventoryId,
           );

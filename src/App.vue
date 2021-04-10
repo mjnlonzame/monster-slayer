@@ -13,7 +13,7 @@
           <li class="nav-item">
             <router-link
 class="nav-link"
-             to="/dungeons"
+            to="/dungeons"
 active-class="active">Dungeons</router-link>
           </li>
           <li class="nav-item ml-auto">
@@ -47,14 +47,50 @@ class="back-route"
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   name: 'App',
   data() {
     return {
       account: null,
+      isLoading: false,
+      refCount: 0,
     };
   },
-  created() {},
+  created() {
+    let loader;
+    axios.interceptors.request.use(
+      (config) => {
+        this.refCount += 1;
+        if (!this.isLoading) {
+          this.isLoading = true;
+          loader = this.$loading.show({
+            container: this.fullPage ? null : this.$refs.formContainer,
+            canCancel: true,
+            onCancel: this.onCancel,
+          });
+        }
+
+        return config;
+      },
+      (error) => Promise.reject(error),
+    );
+
+    axios.interceptors.response.use(
+      (config) => {
+        if (this.refCount > 0) {
+          this.refCount -= 1;
+          this.isLoading = this.refCount > 0;
+          loader.hide();
+          this.ajaxCallCount = 0;
+        }
+
+        return config;
+      },
+      (error) => Promise.reject(error),
+    );
+  },
   components: {},
   computed: {},
   methods: {
